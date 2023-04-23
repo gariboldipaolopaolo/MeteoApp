@@ -1,9 +1,10 @@
 package ch.supsi.dti.isin.meteoapp.model;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "location")
+@Entity
 public class Location {
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -11,12 +12,16 @@ public class Location {
     private double latitude;
     private double longitude;
 
-    public Location(int id, String name, double latitude, double longitude) {
-        this.id = id;
+    @Ignore
+    public Location() {
+
+    }
+    public Location(String name, double latitude, double longitude) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
     }
+
 
     public int getId() {
         return id;

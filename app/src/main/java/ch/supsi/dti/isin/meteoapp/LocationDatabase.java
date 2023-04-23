@@ -18,6 +18,7 @@ public abstract class LocationDatabase extends RoomDatabase {
         if(sInstance == null){
             sInstance = Room
                     .databaseBuilder(context.getApplicationContext(), LocationDatabase.class, LocationDatabase.DATABASE_NAME)
+                    .allowMainThreadQueries()
                     .build();
         }
 

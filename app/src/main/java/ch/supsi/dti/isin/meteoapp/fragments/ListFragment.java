@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import ch.supsi.dti.isin.meteoapp.LocationDatabase;
 import ch.supsi.dti.isin.meteoapp.R;
 import ch.supsi.dti.isin.meteoapp.activities.DetailActivity;
 import ch.supsi.dti.isin.meteoapp.dialogs.AddCityDialog;
@@ -27,10 +28,14 @@ public class ListFragment extends Fragment {
     private RecyclerView mLocationRecyclerView;
     private LocationAdapter mAdapter;
 
+    private LocationDatabase db;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        db = LocationDatabase.getInstance(getActivity());
     }
 
 
@@ -40,7 +45,7 @@ public class ListFragment extends Fragment {
         mLocationRecyclerView = view.findViewById(R.id.recycler_view);
         mLocationRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        List<Location> locations = LocationsHolder.get(getActivity()).getLocations();
+        List<Location> locations = LocationsHolder.get(db).getLocations();
         mAdapter = new LocationAdapter(locations);
         mLocationRecyclerView.setAdapter(mAdapter);
 
@@ -118,6 +123,9 @@ public class ListFragment extends Fragment {
 
         @Override
         public int getItemCount() {
+            if (mLocations == null)
+                return 0;
+
             return mLocations.size();
         }
     }

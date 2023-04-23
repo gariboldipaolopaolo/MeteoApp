@@ -4,9 +4,15 @@ import android.content.Context;
 import android.util.Log;
 
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import ch.supsi.dti.isin.meteoapp.LocationDatabase;
+import ch.supsi.dti.isin.meteoapp.R;
 
 public class LocationsHolder {
 
@@ -15,30 +21,24 @@ public class LocationsHolder {
     private static LocationsHolder sLocationsHolder;
     private List<Location> mLocations;
 
-    public static LocationsHolder get(Context context) {
+    public static LocationsHolder get(LocationDatabase db) {
         if (sLocationsHolder == null)
-            sLocationsHolder = new LocationsHolder(context);
+            sLocationsHolder = new LocationsHolder(db);
 
         return sLocationsHolder;
     }
 
-    private LocationsHolder(Context context) {
-        Log.i(TAG, ""+context);
-        mLocations = new ArrayList<>();
-        Location location = new Location();
-        //TODO gestire la parte della popolazione delle location tra salvate e la prima deve essere quella della posizione corrente
-        location.setLatitude(46.5386);
-        location.setLongitude(10.1357);
-        location.setName("Mendrisio");
+    private LocationsHolder(LocationDatabase db) {
+        mLocations = db.locationDao().getAllLocations();
     }
 
     public List<Location> getLocations() {
         return mLocations;
     }
 
-    public Location getLocation(UUID id) {
+    public Location getLocation(int id) {
         for (Location location : mLocations) {
-            if (location.getId().equals(id))
+            if (location.getId() == id)
                 return location;
         }
 

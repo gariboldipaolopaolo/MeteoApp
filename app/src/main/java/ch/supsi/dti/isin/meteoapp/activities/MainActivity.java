@@ -11,9 +11,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.io.IOException;
 
+import ch.supsi.dti.isin.meteoapp.LocationDatabase;
 import ch.supsi.dti.isin.meteoapp.R;
 import ch.supsi.dti.isin.meteoapp.api.WeatherApiManager;
 import ch.supsi.dti.isin.meteoapp.dialogs.AddCityDialog;
@@ -23,12 +25,14 @@ import io.nlopez.smartlocation.location.config.LocationAccuracy;
 import io.nlopez.smartlocation.location.config.LocationParams;
 
 public class MainActivity extends AppCompatActivity implements AddCityDialog.AddCityDialogListener{
-
+    private LocationDatabase db;
     private static final String TAG = "Main_activity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_single_fragment);
+
+        db = LocationDatabase.getInstance(this);
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.i(TAG, "Permission not granted");
@@ -49,10 +53,21 @@ public class MainActivity extends AppCompatActivity implements AddCityDialog.Add
     }
 
     @Override
-    public void applyCity(String cityName) throws IOException {
+    public void applyCity(String cityName) {
         String url = "https://api.api-ninjas.com/v1/city?name=" + cityName;
 
         ch.supsi.dti.isin.meteoapp.model.Location location = WeatherApiManager.getLocation(url);
+
+        if (location.getName() != null) {
+            db.locationDao().insert(location);
+
+            Fragment frg = null;
+            frg = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+            final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.detach(frg);
+            ft.attach(frg);
+            ft.commit();
+        }
 
         String message = location.getName() != null ? "Location added!" : "Location not found!";
 

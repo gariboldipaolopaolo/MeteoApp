@@ -21,7 +21,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final String EXTRA_LATITUDE = "ch.supsi.dti.isin.meteoapp.latitude";
     private static final String EXTRA_LONGITUDE = "ch.supsi.dti.isin.meteoapp.longitude";
 
-    public static Intent newIntent(Context packageContext, UUID locationId, double lat, double lon) {
+    public static Intent newIntent(Context packageContext, int locationId, double lat, double lon) {
         Intent intent = new Intent(packageContext, DetailActivity.class);
         intent.putExtra(EXTRA_LOCATION_ID, locationId);
         intent.putExtra(EXTRA_LATITUDE, lat);
@@ -37,7 +37,7 @@ public class DetailActivity extends AppCompatActivity {
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
         if (fragment == null) {
 
-            UUID locationId = (UUID) getIntent().getSerializableExtra(EXTRA_LOCATION_ID);
+            int locationId = (int) getIntent().getSerializableExtra(EXTRA_LOCATION_ID);
             double latitude = getIntent().getDoubleExtra(EXTRA_LATITUDE, 0);
             double longitude = getIntent().getDoubleExtra(EXTRA_LONGITUDE, 0);
             WeatherData weatherData = WeatherApiManager.getWeatherDataWithId(latitude, longitude);
