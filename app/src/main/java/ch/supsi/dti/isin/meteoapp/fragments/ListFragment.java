@@ -20,6 +20,7 @@ import java.util.List;
 
 import ch.supsi.dti.isin.meteoapp.R;
 import ch.supsi.dti.isin.meteoapp.activities.DetailActivity;
+import ch.supsi.dti.isin.meteoapp.dialogs.AddCityDialog;
 import ch.supsi.dti.isin.meteoapp.model.LocationsHolder;
 import ch.supsi.dti.isin.meteoapp.model.Location;
 
@@ -59,14 +60,16 @@ public class ListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add:
-                Toast toast = Toast.makeText(getActivity(),
-                        "Add a location",
-                        Toast.LENGTH_SHORT);
-                toast.show();
+                openAddCityDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void openAddCityDialog(){
+        AddCityDialog addCityDialog = new AddCityDialog();
+        addCityDialog.show(getActivity().getSupportFragmentManager(), "add city dialog");
     }
 
     // Holder

@@ -8,6 +8,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,12 +22,15 @@ import java.util.List;
 import java.util.Locale;
 
 import ch.supsi.dti.isin.meteoapp.R;
+import ch.supsi.dti.isin.meteoapp.api.WeatherApiManager;
+import ch.supsi.dti.isin.meteoapp.dialogs.AddCityDialog;
 import ch.supsi.dti.isin.meteoapp.fragments.ListFragment;
+import ch.supsi.dti.isin.meteoapp.model.WeatherData;
 import io.nlopez.smartlocation.SmartLocation;
 import io.nlopez.smartlocation.location.config.LocationAccuracy;
 import io.nlopez.smartlocation.location.config.LocationParams;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AddCityDialog.AddCityDialogListener{
 
     private static final String TAG = "MeteoApp_SML";
     @Override
@@ -50,6 +54,21 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.fragment_container, fragment)
                     .commit();
         }
+    }
+
+    @Override
+    public void applyCity(String cityName) throws IOException {
+        String url = "https://api.api-ninjas.com/v1/city?name=" + cityName;
+
+        ch.supsi.dti.isin.meteoapp.model.Location location = WeatherApiManager.getLocation(url);
+
+        String message = location.getName() != null ? "Location added!" : "Location not found!";
+
+        Toast toast = Toast.makeText(getApplicationContext(),
+                message,
+                Toast.LENGTH_SHORT);
+        toast.show();
+
     }
 
     private void startLocationListener() {
