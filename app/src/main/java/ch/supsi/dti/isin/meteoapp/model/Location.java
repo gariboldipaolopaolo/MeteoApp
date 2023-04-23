@@ -1,20 +1,29 @@
 package ch.supsi.dti.isin.meteoapp.model;
 
-import java.util.UUID;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "location")
 public class Location {
-    private UUID Id;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String name;
     private double latitude;
     private double longitude;
-    private int degree;
 
-    public UUID getId() {
-        return Id;
+    public Location(int id, String name, double latitude, double longitude) {
+        this.id = id;
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public void setId(UUID id) {
-        Id = id;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -40,12 +49,4 @@ public class Location {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
-
-    public Location() {
-        Id = UUID.randomUUID();
-    }
-
-    public int getDegree() { return degree; }
-
-    public void setDegree(int deg) { degree = deg; }
 }
