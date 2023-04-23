@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -81,7 +83,7 @@ public class ListFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Intent intent = DetailActivity.newIntent(getActivity(), mLocation.getId());
+            Intent intent = DetailActivity.newIntent(getActivity(), mLocation.getId(), mLocation.getLatitude(), mLocation.getLongitude());
             startActivity(intent);
         }
 

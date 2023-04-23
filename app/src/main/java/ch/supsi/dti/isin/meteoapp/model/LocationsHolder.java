@@ -20,11 +20,12 @@ public class LocationsHolder {
 
     private LocationsHolder(Context context) {
         mLocations = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Location location = new Location();
-            location.setName("Location # " + i);
-            mLocations.add(location);
-        }
+        Location location = new Location();
+        //TODO gestire la parte della popolazione delle location tra salvate e la prima deve essere quella della posizione corrente
+        location.setName("Mendrisio");
+        location.setLatitude(45.871333);
+        location.setLongitude(8.984132);
+        mLocations.add(location);
     }
 
     public List<Location> getLocations() {

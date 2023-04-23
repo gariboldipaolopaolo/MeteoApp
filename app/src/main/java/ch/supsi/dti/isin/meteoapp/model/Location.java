@@ -5,6 +5,9 @@ import java.util.UUID;
 public class Location {
     private UUID Id;
     private String mName;
+    private double mLatitude;
+    private double mLongitude;
+    private int degree;
 
     public UUID getId() {
         return Id;
@@ -22,7 +25,27 @@ public class Location {
         mName = name;
     }
 
+    public double getLatitude() {
+        return mLatitude;
+    }
+
+    public void setLatitude(double latitude) {
+        mLatitude = latitude;
+    }
+
+    public double getLongitude() {
+        return mLongitude;
+    }
+
+    public void setLongitude(double longitude) {
+        mLongitude = longitude;
+    }
+
     public Location() {
         Id = UUID.randomUUID();
     }
+
+    public int getDegree() { return degree; }
+
+    public void setDegree(int deg) { degree = deg; }
 }
