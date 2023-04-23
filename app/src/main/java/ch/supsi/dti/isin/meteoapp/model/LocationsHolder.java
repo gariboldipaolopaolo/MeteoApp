@@ -36,7 +36,6 @@ public class LocationsHolder {
         location.setLatitude(46.5386);
         location.setLongitude(10.1357);
         location.setName("Mendrisio");
-        mLocations.add(location);
     }
 
     public List<Location> getLocations() {
