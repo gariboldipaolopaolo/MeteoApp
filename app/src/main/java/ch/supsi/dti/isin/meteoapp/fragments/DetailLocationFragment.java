@@ -49,8 +49,8 @@ public class DetailLocationFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_detail_location, container, false);
 
         TextView locationNameTextView = v.findViewById(R.id.location_name);
-        assert getArguments() != null;
-        locationNameTextView.setText(getArguments().getString("title"));
+        String name = (getArguments().getString("title").isEmpty()) ? "Location not provided" : getArguments().getString("title");
+        locationNameTextView.setText(name);
 
         TextView temperatureTextView = v.findViewById(R.id.date_text_view);
         @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM EEE");
@@ -61,34 +61,18 @@ public class DetailLocationFragment extends Fragment {
         weatherConditionTextView.setText(getArguments().getString("weather_condition"));
 
         ImageView imageView = v.findViewById(R.id.my_image_view);
-        switch(getArguments().getString("label")) {
-            case "clear sky":
-                imageView.setBackgroundResource(R.drawable.clear_sky_image);
-                break;
-            case "few clouds":
-                imageView.setImageResource(R.drawable.few_clouds_image);
-                break;
-            case "scattered clouds":
-                imageView.setImageResource(R.drawable.scatter_clouds_image);
-                break;
-            case "broken clouds":
-                imageView.setBackgroundResource(R.drawable.broken_clouds_image);
-                break;
-            case "shower rain":
-                imageView.setBackgroundResource(R.drawable.shower_rain_image);
-                break;
-            case "rain":
-                imageView.setBackgroundResource(R.drawable.rain_image);
-                break;
-            case "thunderstorm":
-                imageView.setBackgroundResource(R.drawable.thunderstorm_image);
-                break;
-            case "snow":
-                imageView.setBackgroundResource(R.drawable.snow_image);
-                break;
-            case "mist":
-                imageView.setBackgroundResource(R.drawable.mist_image);
-                break;
+
+        String weather = getArguments().getString("label");
+        if (weather.contains("clouds") || weather.contains("drizzle")) {
+            imageView.setBackgroundResource(R.drawable.clouds_image);
+        } else if (weather.contains("rain")) {
+            imageView.setBackgroundResource(R.drawable.rain_image);
+        } else if (weather.contains("thunderstorm")) {
+            imageView.setBackgroundResource(R.drawable.thunderstorm_image);
+        } else if (weather.contains("snow")) {
+            imageView.setBackgroundResource(R.drawable.snow_image);
+        } else {
+            imageView.setBackgroundResource(R.drawable.default_image);
         }
 
         return v;
