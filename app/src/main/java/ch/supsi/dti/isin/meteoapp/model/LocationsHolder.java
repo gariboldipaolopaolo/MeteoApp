@@ -1,17 +1,11 @@
 package ch.supsi.dti.isin.meteoapp.model;
 
 import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
 import android.util.Log;
 
 
-import androidx.annotation.NonNull;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
 public class LocationsHolder {
