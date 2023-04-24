@@ -1,6 +1,7 @@
 package ch.supsi.dti.isin.meteoapp.dao;
 
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -15,9 +16,12 @@ public interface ILocationDao {
     @Insert
     void insert(Location location);
 
-    @Query("SELECT * FROM location")
-    List<Location> getAllLocations();
+    @Query("SELECT * FROM location Order by Id Desc")
+    LiveData<List<Location>> getAllLocations();
 
     @Delete
     void deleteLocation(Location location);
+
+    @Query("DELETE FROM location")
+    void deleteAll();
 }

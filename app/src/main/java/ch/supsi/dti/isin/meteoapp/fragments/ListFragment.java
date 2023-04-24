@@ -1,59 +1,82 @@
 package ch.supsi.dti.isin.meteoapp.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
+import android.widget.Button;
+import android.widget.Toast;
+import java.io.IOException;
 import java.util.List;
-
-import ch.supsi.dti.isin.meteoapp.LocationDatabase;
 import ch.supsi.dti.isin.meteoapp.R;
-import ch.supsi.dti.isin.meteoapp.activities.DetailActivity;
 import ch.supsi.dti.isin.meteoapp.dialogs.AddCityDialog;
-import ch.supsi.dti.isin.meteoapp.model.LocationsHolder;
 import ch.supsi.dti.isin.meteoapp.model.Location;
+import ch.supsi.dti.isin.meteoapp.model.LocationViewModel;
 
-public class ListFragment extends Fragment {
-    private RecyclerView mLocationRecyclerView;
-    private LocationAdapter mAdapter;
-
-    private LocationDatabase db;
+public class ListFragment extends Fragment{
+    private LocationViewModel locationViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-        db = LocationDatabase.getInstance(getActivity());
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-        mLocationRecyclerView = view.findViewById(R.id.recycler_view);
+
+        RecyclerView mLocationRecyclerView = view.findViewById(R.id.recycler_view);
         mLocationRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        List<Location> locations = LocationsHolder.get(db).getLocations();
-        mAdapter = new LocationAdapter(locations);
+        LocationAdapter mAdapter = new LocationAdapter();
         mLocationRecyclerView.setAdapter(mAdapter);
 
+        ViewModelProvider.AndroidViewModelFactory factory = ViewModelProvider.AndroidViewModelFactory
+                .getInstance(((FragmentActivity) getContext())
+                        .getApplication());
+
+        locationViewModel = new ViewModelProvider((FragmentActivity) getContext(), factory).get(LocationViewModel.class);
+        locationViewModel.getAllLocations().observe(getActivity(), new Observer<List<Location>>() {
+            @Override
+            public void onChanged(List<Location> locations) {
+                //update RecyclerView
+                mAdapter.setLocations(locations);
+            }
+        });
+
+        //swipe to delete
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                locationViewModel.delete(mAdapter.getLocationAt(viewHolder.getAdapterPosition()));
+
+                Toast.makeText(getActivity().getApplicationContext(), "Location deleted!", Toast.LENGTH_SHORT).show();
+            }
+        }).attachToRecyclerView(mLocationRecyclerView);
+        
         return view;
     }
 
     // Menu
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -66,6 +89,10 @@ public class ListFragment extends Fragment {
             case R.id.menu_add:
                 openAddCityDialog();
                 return true;
+            case R.id.delete_all:
+                locationViewModel.deleteAllLocations();
+                Toast.makeText(getActivity().getApplicationContext(), "All locations deleted!", Toast.LENGTH_SHORT).show();
+            return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -73,60 +100,27 @@ public class ListFragment extends Fragment {
 
     public void openAddCityDialog(){
         AddCityDialog addCityDialog = new AddCityDialog();
+
+        AddCityDialog.AddCityDialogListener listener = new AddCityDialog.AddCityDialogListener() {
+            @Override
+            public void applyCity(String cityName) throws IOException {
+                String url = "https://api.api-ninjas.com/v1/city?name=" + cityName;
+
+                //ch.supsi.dti.isin.meteoapp.model.Location location = WeatherApiManager.getLocation(url);
+                Location location = new Location("test nuovo", 10, 10);
+                if (location.getName() != null) {
+                    locationViewModel.insert(location);
+                }
+
+                String message = location.getName() != null ? "Location added!" : "Location not found!";
+
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                        message,
+                        Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        };
+        addCityDialog.setListener(listener);
         addCityDialog.show(getActivity().getSupportFragmentManager(), "add city dialog");
-    }
-
-    // Holder
-
-    private class LocationHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView mNameTextView;
-        private Location mLocation;
-
-        public LocationHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item, parent, false));
-            itemView.setOnClickListener(this);
-            mNameTextView = itemView.findViewById(R.id.name);
-        }
-
-        @Override
-        public void onClick(View view) {
-            Intent intent = DetailActivity.newIntent(getActivity(), mLocation.getId(), mLocation.getLatitude(), mLocation.getLongitude());
-            startActivity(intent);
-        }
-
-        public void bind(Location location) {
-            mLocation = location;
-            mNameTextView.setText(mLocation.getName());
-        }
-    }
-
-    // Adapter
-
-    private class LocationAdapter extends RecyclerView.Adapter<LocationHolder> {
-        private List<Location> mLocations;
-
-        public LocationAdapter(List<Location> locations) {
-            mLocations = locations;
-        }
-
-        @Override
-        public LocationHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            return new LocationHolder(layoutInflater, parent);
-        }
-
-        @Override
-        public void onBindViewHolder(LocationHolder holder, int position) {
-            Location location = mLocations.get(position);
-            holder.bind(location);
-        }
-
-        @Override
-        public int getItemCount() {
-            if (mLocations == null)
-                return 0;
-
-            return mLocations.size();
-        }
     }
 }

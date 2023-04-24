@@ -14,11 +14,11 @@ public abstract class LocationDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "locations-db";
     private static LocationDatabase sInstance;
 
-    public static LocationDatabase getInstance(Context context){
+    public static synchronized LocationDatabase getInstance(Context context){
         if(sInstance == null){
             sInstance = Room
                     .databaseBuilder(context.getApplicationContext(), LocationDatabase.class, LocationDatabase.DATABASE_NAME)
-                    .allowMainThreadQueries()
+                    .fallbackToDestructiveMigration()
                     .build();
         }
 

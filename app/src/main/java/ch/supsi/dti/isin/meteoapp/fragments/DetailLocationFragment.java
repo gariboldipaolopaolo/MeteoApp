@@ -12,11 +12,9 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 
 import ch.supsi.dti.isin.meteoapp.LocationDatabase;
 import ch.supsi.dti.isin.meteoapp.R;
-import ch.supsi.dti.isin.meteoapp.model.LocationsHolder;
 import ch.supsi.dti.isin.meteoapp.model.Location;
 import ch.supsi.dti.isin.meteoapp.model.WeatherData;
 
@@ -45,7 +43,7 @@ public class DetailLocationFragment extends Fragment {
 
         assert getArguments() != null;
         int locationId = (int) getArguments().getSerializable(ARG_LOCATION_ID);
-        mLocation = LocationsHolder.get(db).getLocation(locationId);
+        //mLocation = LocationsHolder.get(db).getLocation(locationId);
     }
 
     @Override

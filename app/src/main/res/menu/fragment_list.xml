@@ -4,4 +4,8 @@
         android:icon="@android:drawable/ic_menu_add"
         android:title="New"
         app:showAsAction="ifRoom|withText"/>
+    <item
+        android:id="@+id/delete_all"
+        android:title="Delete all locations"
+        app:showAsAction="never"/>
 </menu>

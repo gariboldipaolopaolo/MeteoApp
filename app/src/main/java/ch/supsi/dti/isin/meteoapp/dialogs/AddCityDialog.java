@@ -54,15 +54,8 @@ public class AddCityDialog extends AppCompatDialogFragment {
         return builder.create();
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        try {
-            listener = (AddCityDialogListener) context;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void setListener(AddCityDialogListener dataListener) {
+        this.listener = dataListener;
     }
 
     public interface AddCityDialogListener{
