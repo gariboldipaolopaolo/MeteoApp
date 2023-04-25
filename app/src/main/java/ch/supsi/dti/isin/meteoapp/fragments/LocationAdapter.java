@@ -1,23 +1,19 @@
 package ch.supsi.dti.isin.meteoapp.fragments;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import ch.supsi.dti.isin.meteoapp.R;
-import ch.supsi.dti.isin.meteoapp.activities.DetailActivity;
 import ch.supsi.dti.isin.meteoapp.model.Location;
 
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.LocationHolder> {
     private List<Location> locations = new ArrayList<>();
+    private onItemClickListener listener;
 
     @NonNull
     @Override
@@ -55,6 +51,23 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
         public LocationHolder(View itemView) {
             super(itemView);
             this.name = itemView.findViewById(R.id.name);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if(listener != null && position != RecyclerView.NO_POSITION)
+                        listener.onItemClick(locations.get(position));
+                }
+            });
         }
+    }
+
+    public interface onItemClickListener {
+        void onItemClick(Location location);
+    }
+
+    public void setOnItemClickListener(onItemClickListener listener){
+        this.listener = listener;
     }
 }

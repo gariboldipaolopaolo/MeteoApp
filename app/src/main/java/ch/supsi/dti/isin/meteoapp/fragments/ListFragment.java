@@ -1,5 +1,6 @@
 package ch.supsi.dti.isin.meteoapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,11 +17,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 import java.io.IOException;
 import java.util.List;
 import ch.supsi.dti.isin.meteoapp.R;
+import ch.supsi.dti.isin.meteoapp.activities.DetailActivity;
+import ch.supsi.dti.isin.meteoapp.api.WeatherApiManager;
 import ch.supsi.dti.isin.meteoapp.dialogs.AddCityDialog;
 import ch.supsi.dti.isin.meteoapp.model.Location;
 import ch.supsi.dti.isin.meteoapp.model.LocationViewModel;
@@ -33,7 +35,6 @@ public class ListFragment extends Fragment{
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,6 +73,19 @@ public class ListFragment extends Fragment{
                 Toast.makeText(getActivity().getApplicationContext(), "Location deleted!", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(mLocationRecyclerView);
+
+        mAdapter.setOnItemClickListener(new LocationAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(Location location) {
+                Intent intent = DetailActivity.newIntent(
+                        getActivity(),
+                        location.getId(),
+                        location.getLatitude(),
+                        location.getLongitude());
+
+                startActivity(intent);
+            }
+        });
         
         return view;
     }
@@ -106,8 +120,7 @@ public class ListFragment extends Fragment{
             public void applyCity(String cityName) throws IOException {
                 String url = "https://api.api-ninjas.com/v1/city?name=" + cityName;
 
-                //ch.supsi.dti.isin.meteoapp.model.Location location = WeatherApiManager.getLocation(url);
-                Location location = new Location("test nuovo", 10, 10);
+                ch.supsi.dti.isin.meteoapp.model.Location location = WeatherApiManager.getLocation(url);
                 if (location.getName() != null) {
                     locationViewModel.insert(location);
                 }

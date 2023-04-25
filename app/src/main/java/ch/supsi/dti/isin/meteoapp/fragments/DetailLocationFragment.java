@@ -19,7 +19,6 @@ import ch.supsi.dti.isin.meteoapp.model.Location;
 import ch.supsi.dti.isin.meteoapp.model.WeatherData;
 
 public class DetailLocationFragment extends Fragment {
-    private LocationDatabase db;
     private static final String ARG_LOCATION_ID = "location_id";
 
     private Location mLocation;
@@ -39,11 +38,8 @@ public class DetailLocationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        db = LocationDatabase.getInstance(getActivity());
 
         assert getArguments() != null;
-        int locationId = (int) getArguments().getSerializable(ARG_LOCATION_ID);
-        //mLocation = LocationsHolder.get(db).getLocation(locationId);
     }
 
     @Override
