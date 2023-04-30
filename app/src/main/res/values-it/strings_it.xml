@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MeteoApp</string>
+    <string name="weather_condition">Condizioni meteo</string>
+    <string name="feels_like">Temperatura percepita</string>
+    <string name="humidity">Umidita\'</string>
+    <string name="wind_speed">Velocita\' vento</string>
+    <string name="clouds">Nuvole</string>
+    <string name="visibility">Visibilita\'</string>
+    <string name="air_pressure">Pressione atmosferica</string>
+    <string name="add_dialog_hint">Inserisci qui una citta\'</string>
+    <string name="add_button_label">Nuova</string>
+    <string name="delete_all_button_label">Cancella tutte le citta\'</string>
+</resources>
