@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MétéoApp</string>
+    <string name="weather_condition">Condition météorologique</string>
+    <string name="feels_like">Ressenti</string>
+    <string name="humidity">Humidité</string>
+    <string name="wind_speed">Vitesse du vent</string>
+    <string name="clouds">Nuages</string>
+    <string name="visibility">Visibilité</string>
+    <string name="air_pressure">Pression</string>
+    <string name="add_dialog_hint">Insérer ici une ville</string>
+    <string name="add_button_label">Nouveau</string>
+    <string name="delete_all_button_label">Supprimer tous les emplacements</string>
+    <string name="city_dialog_title">Ajouter une nouvelle ville</string>
+    <string name="location_added">Emplacement ajouté</string>
+    <string name="location_not_found">Emplacement non trouvé</string>
+    <string name="location_not_provide">Emplacement non fourni</string>
+    <string name="location_deleted">Emplacement supprimé</string>
+    <string name="all_location_deleted">Tous les emplacements supprimés</string>
+</resources>

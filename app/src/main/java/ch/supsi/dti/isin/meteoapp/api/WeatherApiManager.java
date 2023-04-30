@@ -2,11 +2,13 @@ package ch.supsi.dti.isin.meteoapp.api;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Objects;
 
 import ch.supsi.dti.isin.meteoapp.activities.MainActivity;
@@ -44,6 +46,8 @@ public class WeatherApiManager {
         urlBuilder.addQueryParameter("lon", String.valueOf(longitude));
         urlBuilder.addQueryParameter("appid", API_KEY);
         urlBuilder.addQueryParameter("units", "metric");
+        urlBuilder.addQueryParameter("lang", Locale.getDefault().getLanguage());
+        Log.i("WeatherApi", Locale.getDefault().getLanguage());
         String url = urlBuilder.build().toString();
         Request request = new Request.Builder()
                 .url(url)

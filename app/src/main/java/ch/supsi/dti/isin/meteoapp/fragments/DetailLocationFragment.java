@@ -13,23 +13,19 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import ch.supsi.dti.isin.meteoapp.LocationDatabase;
 import ch.supsi.dti.isin.meteoapp.R;
-import ch.supsi.dti.isin.meteoapp.model.Location;
 import ch.supsi.dti.isin.meteoapp.model.WeatherData;
 
 public class DetailLocationFragment extends Fragment {
     private static final String ARG_LOCATION_ID = "location_id";
 
-    private Location mLocation;
-    private TextView mIdTextView;
-
     public static DetailLocationFragment newInstance(int locationId, WeatherData weatherData) {
         Bundle args = new Bundle();
+        String weather_condition_string = weatherData.getWeather().get(0).getDescription();
         args.putSerializable(ARG_LOCATION_ID, locationId);
         args.putString("title", weatherData.getName());
         args.putString("label", weatherData.getWeather().get(0).getDescription());
-        args.putString("weather_condition", weatherData.getWeather().get(0).getMain());
+        args.putString("weather_condition", weather_condition_string.substring(0, 1).toUpperCase() + weather_condition_string.substring(1));
         DetailLocationFragment fragment = new DetailLocationFragment();
         fragment.setArguments(args);
         return fragment;
@@ -47,7 +43,8 @@ public class DetailLocationFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_detail_location, container, false);
 
         TextView locationNameTextView = v.findViewById(R.id.location_name);
-        String name = (getArguments().getString("title").isEmpty()) ? "Location not provided" : getArguments().getString("title");
+        assert getArguments() != null;
+        String name = (getArguments().getString("title").isEmpty()) ? getString(R.string.location_not_provide) : getArguments().getString("title");
         locationNameTextView.setText(name);
 
         TextView temperatureTextView = v.findViewById(R.id.date_text_view);

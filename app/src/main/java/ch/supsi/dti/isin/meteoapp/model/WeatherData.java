@@ -138,10 +138,8 @@ public class WeatherData implements Serializable {
                     '}';
         }
     }
-
     public static class Wind {
         private double speed;
-
         public double getSpeed() {
             return speed;
         }

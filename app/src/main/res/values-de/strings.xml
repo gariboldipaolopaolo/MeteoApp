@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WetterApp</string>
+    <string name="weather_condition">Wetterzustand</string>
+    <string name="feels_like">Gefühlt wie</string>
+    <string name="humidity">Luftfeuchtigkeit</string>
+    <string name="wind_speed">Windgeschwindigkeit</string>
+    <string name="clouds">Wolken</string>
+    <string name="visibility">Sichtweite</string>
+    <string name="air_pressure">Luftdruck</string>
+    <string name="add_dialog_hint">Geben Sie hier eine Stadt ein</string>
+    <string name="add_button_label">Neu</string>
+    <string name="delete_all_button_label">Alle Standorte löschen</string>
+    <string name="city_dialog_title">Fügen Sie eine neue Stadt hinzu</string>
+    <string name="location_added">Standort hinzugefügt</string>
+    <string name="location_not_found">Standort nicht gefunden</string>
+    <string name="location_not_provide">Standort nicht angegeben</string>
+    <string name="location_deleted">Standort gelöscht</string>
+    <string name="all_location_deleted">Alle Standorte gelöscht</string>
+</resources>

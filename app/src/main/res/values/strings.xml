@@ -10,4 +10,10 @@
     <string name="add_dialog_hint">Insert here a city</string>
     <string name="add_button_label">New</string>
     <string name="delete_all_button_label">Delete all locations</string>
+    <string name="city_dialog_title">Add a new city</string>
+    <string name="location_added">Location added</string>
+    <string name="location_not_found">Location not found</string>
+    <string name="location_not_provide">Location not provided</string>
+    <string name="location_deleted">Location deleted</string>
+    <string name="all_location_deleted">All locations deleted</string>
 </resources>

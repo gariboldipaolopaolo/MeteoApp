@@ -2,13 +2,19 @@
 <resources>
     <string name="app_name">MeteoApp</string>
     <string name="weather_condition">Condizioni meteo</string>
-    <string name="feels_like">Temperatura percepita</string>
+    <string name="feels_like">Temperatura</string>
     <string name="humidity">Umidita\'</string>
     <string name="wind_speed">Velocita\' vento</string>
     <string name="clouds">Nuvole</string>
     <string name="visibility">Visibilita\'</string>
-    <string name="air_pressure">Pressione atmosferica</string>
+    <string name="air_pressure">Pressione</string>
     <string name="add_dialog_hint">Inserisci qui una citta\'</string>
     <string name="add_button_label">Nuova</string>
     <string name="delete_all_button_label">Cancella tutte le citta\'</string>
+    <string name="city_dialog_title">Aggiungi una nuova citta\'</string>
+    <string name="location_added">Posizione aggiunta</string>
+    <string name="location_not_found">Posizione non trovata</string>
+    <string name="location_not_provide">Posizione non fornita</string>
+    <string name="location_deleted">Posizione eliminata</string>
+    <string name="all_location_deleted">Tutte le posizioni eliminate</string>
 </resources>

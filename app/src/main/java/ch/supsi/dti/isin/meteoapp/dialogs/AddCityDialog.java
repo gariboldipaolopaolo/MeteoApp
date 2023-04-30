@@ -1,7 +1,6 @@
 package ch.supsi.dti.isin.meteoapp.dialogs;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 import ch.supsi.dti.isin.meteoapp.R;
 
@@ -30,7 +28,7 @@ public class AddCityDialog extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.add_city_dialog, null);
 
         builder.setView(view)
-                .setTitle("Add a new city")
+                .setTitle(R.string.city_dialog_title)
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

@@ -70,7 +70,7 @@ public class ListFragment extends Fragment{
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 locationViewModel.delete(mAdapter.getLocationAt(viewHolder.getAdapterPosition()));
 
-                Toast.makeText(getActivity().getApplicationContext(), "Location deleted!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), R.string.location_deleted, Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(mLocationRecyclerView);
 
@@ -105,7 +105,7 @@ public class ListFragment extends Fragment{
                 return true;
             case R.id.delete_all:
                 locationViewModel.deleteAllLocations();
-                Toast.makeText(getActivity().getApplicationContext(), "All locations deleted!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), R.string.all_location_deleted, Toast.LENGTH_SHORT).show();
             return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -125,7 +125,7 @@ public class ListFragment extends Fragment{
                     locationViewModel.insert(location);
                 }
 
-                String message = location.getName() != null ? "Location added!" : "Location not found!";
+                String message = location.getName() != null ? getString(R.string.location_added) : getString(R.string.location_not_found);
 
                 Toast toast = Toast.makeText(getActivity().getApplicationContext(),
                         message,
