@@ -140,6 +140,11 @@ public class WeatherApiManager {
             getCityData(url, new CityApiCallback() {
                 @Override
                 public void onSuccess(Location data) {
+                    if(data == null){
+                        onFailure("City not found.");
+                        return;
+                    }
+
                     location.setName(data.getName());
                     location.setLatitude(data.getLatitude());
                     location.setLongitude(data.getLongitude());

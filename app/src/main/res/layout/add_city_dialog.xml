@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:hint="Insert here a city"
+        android:hint="@string/add_dialog_hint"
         android:id="@+id/city_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

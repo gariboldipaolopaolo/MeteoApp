@@ -2,10 +2,10 @@
     <item
         android:id="@+id/menu_add"
         android:icon="@android:drawable/ic_menu_add"
-        android:title="New"
+        android:title="@string/add_button_label"
         app:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/delete_all"
-        android:title="Delete all locations"
+        android:title="@string/delete_all_button_label"
         app:showAsAction="never"/>
 </menu>

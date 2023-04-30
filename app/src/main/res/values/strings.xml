@@ -7,4 +7,7 @@
     <string name="clouds">Clouds</string>
     <string name="visibility">Visibility</string>
     <string name="air_pressure">Air pressure</string>
+    <string name="add_dialog_hint">Insert here a city</string>
+    <string name="add_button_label">New</string>
+    <string name="delete_all_button_label">Delete all locations</string>
 </resources>
