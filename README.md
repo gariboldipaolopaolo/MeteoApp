@@ -1,1 +1,3 @@
-# MeteoApp Skeleton (Android version)
+# MeteoApp
+
+A simple Weather application made with Android Studio.
