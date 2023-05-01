@@ -41,6 +41,10 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
         notifyDataSetChanged();
     }
 
+    public List<Location> getLocations(){
+        return this.locations;
+    }
+
     public  Location getLocationAt(int position){
         return locations.get(position);
     }
