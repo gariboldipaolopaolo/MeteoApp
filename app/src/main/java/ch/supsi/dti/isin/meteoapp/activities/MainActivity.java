@@ -1,25 +1,26 @@
 package ch.supsi.dti.isin.meteoapp.activities;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
-
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import java.io.IOException;
-
-import ch.supsi.dti.isin.meteoapp.LocationDatabase;
+import androidx.work.WorkManager;
+import java.util.concurrent.TimeUnit;
+import ch.supsi.dti.isin.meteoapp.MeteoWorker;
 import ch.supsi.dti.isin.meteoapp.R;
-import ch.supsi.dti.isin.meteoapp.api.WeatherApiManager;
-import ch.supsi.dti.isin.meteoapp.dialogs.AddCityDialog;
 import ch.supsi.dti.isin.meteoapp.fragments.ListFragment;
+import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.SmartLocation;
 import io.nlopez.smartlocation.location.config.LocationAccuracy;
 import io.nlopez.smartlocation.location.config.LocationParams;
@@ -30,6 +31,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_single_fragment);
+
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("default", "TEST_CHANNEL", NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription("Test Channel Description");
+            mNotificationManager.createNotificationChannel(channel);
+        }
+
+        PeriodicWorkRequest periodicRequest = new PeriodicWorkRequest.Builder(MeteoWorker.class, 10, TimeUnit.MINUTES).build();
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork("SHOW NOTIFICATION", ExistingPeriodicWorkPolicy.KEEP, periodicRequest);
+
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.i(TAG, "Permission not granted");
@@ -59,10 +72,12 @@ public class MainActivity extends AppCompatActivity {
                 .setDistance(trackingDistance)
                 .setInterval(mLocTrackingInterval);
 
-        SmartLocation.with(this)
-                .location()
-                .continuous()
-                .config(builder.build());
+        SmartLocation.with(this).location().continuous().config(builder.build())
+                .start(new OnLocationUpdatedListener() {
+                    @Override
+                    public void onLocationUpdated(Location location) {
+                        Log.i(TAG, "Location" + location);
+                    }});
     }
 
     private void requestPermissions() {

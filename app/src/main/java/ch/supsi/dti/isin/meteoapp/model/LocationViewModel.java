@@ -17,7 +17,8 @@ public class LocationViewModel extends AndroidViewModel {
     public LocationViewModel(@NonNull Application application) {
         super(application);
         repository = new LocationRepository(application);
-        allLocations = repository.getAllLocations();
+        LiveData<List<Location>> remoteLocations = repository.getAllLocations();
+        allLocations = remoteLocations;
     }
 
     public void insert(Location location){
